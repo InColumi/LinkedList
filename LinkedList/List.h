@@ -7,9 +7,11 @@
 class List
 {
 private:
+	size_t _countNodes;
+
+protected:
 	Node* _head;
 	Node* _tail;
-	size_t _countNodes;
 
 public:
 	List();

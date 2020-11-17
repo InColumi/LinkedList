@@ -4,8 +4,6 @@
 
 using namespace std;
 
-enum ItemType { itDog = 1, itCat, itCrocodile };
-
 class Base: public Node
 {
 private:
@@ -128,76 +126,117 @@ public:
 		Add(new Base(id, lastName, firstName, middleName, mailAddress, phoneNumber, data));
 	}
 
+	void Sort()
+	{
+		Node* stepper = _head;
+		Node* z, * g, * u;
+		size_t size = GetSize(); //количество элементов списка
+		//пузырьковая сортировка для списка
+		string(Node:: * GetLastName)() = static_cast<string(Node::*)()>(&Base::GetLastName);
+		for(size_t j = 0; j < size - 1; j++)
+		{
+			for(size_t i = 0; i < size - j - 1; i++)
+			{
+				if(Compere((stepper->*GetLastName)(), (stepper->GetNext()->*GetLastName)())) //сравниваем фамилии соседних элементов
+				{
+					//меняем их местами, если они не по порядку
+					if(size == 2) //если в списке всего два элемента
+					{
+						z = stepper->GetNext();
+						g = z->GetNext();
+						SetNext(*stepper, g);
+						//stepper->GetNext() = g;
+						SetNext(*z, stepper);
+						//z->GetNext() = stepper;
+						SetPrev(*z, stepper->GetPrev());
+						//z->GetPrev() = stepper->prev;
+						SetPrev(*stepper, z);
+						//stepper->prev = z;
+						_head = z;
+					}
+					else if(stepper == GetHead()) //если переставляем головной элемент
+					{
+						z = stepper->GetNext();
+						g = z->GetNext();
+						SetPrev(*g, stepper);
+						//g->prev = stepper;
+						SetNext(*stepper, g);
+						//stepper->next = g;
+						SetNext(*z, stepper);
+						//z->next = stepper;
+						SetPrev(*z, stepper->GetPrev());
+						//z->prev = stepper->GetPrev();
+						SetPrev(*stepper, z);
+						//stepper->prev = z;
+						_head = z;
+					}
+					else if(stepper->GetNext() != _tail) //если второй переставляемый не является хвостом
+					{
+						u = stepper->GetPrev();
+						z = stepper->GetNext();
+						g = z->GetNext();
+						SetPrev(*g, stepper);
+						//g->prev = stepper;
+						SetNext(*stepper, g);
+						//stepper->next = g;
+						SetNext(*z, stepper);
+						//z->next = stepper;
+						SetPrev(*z, stepper->GetPrev());
+						//z->prev = stepper->prev;
+						SetPrev(*stepper, z);
+						//stepper->prev = z;
+						SetNext(*u, z);
+						//u->next = z;
+					}
+					else //если p->next является хвостом списка
+					{
+						u = stepper->GetPrev();
+						z = stepper->GetNext();
+						
+						g = z->GetNext();
+						SetNext(*stepper, g);
+						//stepper->next = g;
+						SetNext(*z, stepper);
+						//z->next = stepper;
+						SetPrev(*z, stepper->GetPrev());
+						//z->prev = stepper->prev;
+						SetPrev(*stepper, z);
+						//stepper->prev = z;
+						SetNext(*u, z);
+						//u->next = z;
+						_tail = stepper;
+					}
+				}
+				else
+					stepper = stepper->GetNext(); //переход к следующей паре	
+			}
+			stepper = _head; //следующих проход начинаем с головного элемента
+		}
+	}
+
 private:
 
+	bool Compere(string s1, string s2)
+	{
+		size_t count = 0;
+		size_t size1 = s1.size();
+		size_t size2 = s2.size();
+		for(size_t i = 0; i < size1 && i < size2; i++)
+		{
+			if(s1[i] == s2[i])
+			{
+				count++;
+				continue;
+			}
+			return s1[i] > s2[i];
+		}
+		return (count == size1) ? true : false;
+	}
 
-	//void Sort()
-	//{
-	//	Node* stepper = GetHead();
-	//	Base* z, * g, * u;
-	//	size_t size = GetSize(); //количество элементов списка
-	//	//пузырьковая сортировка для списка
-	//	for(size_t j = 0; j < size - 1; j++)
-	//	{
-	//		for(size_t i = 0; i < size - j - 1; i++)
-	//		{
-	//			if(strcmp(((Base)stepper->*GetLastName)(), ((Base*) stepper->next)->surname) > 0) //сравниваем фамилии соседних элементов
-	//			{
-	//				//меняем их местами, если они не по порядку
-	//				if(size == 2) //если в списке всего два элемента
-	//				{
-	//					z = stepper->next;
-	//					g = z->next;
-	//					stepper->next = g;
-	//					z->next = stepper;
-	//					z->prev = stepper->prev;
-	//					stepper->prev = z;
-	//					_head = z;
-	//				}
-	//				else if(stepper == _head) //если переставляем головной элемент
-	//				{
-	//					z = stepper->next;
-	//					g = z->next;
-	//					g->prev = stepper;
-	//					stepper->next = g;
-	//					z->next = stepper;
-	//					z->prev = stepper->prev;
-	//					stepper->prev = z;
-	//					_head = z;
-	//				}
-	//				else if(stepper->next != _tail) //если второй переставляемый не является хвостом
-	//				{
-	//					u = stepper->prev;
-	//					z = stepper->next;
-	//					g = z->next;
-	//					g->prev = stepper;
-	//					stepper->next = g;
-	//					z->next = stepper;
-	//					z->prev = stepper->prev;
-	//					stepper->prev = z;
-	//					u->next = z;
-	//				}
-	//				else //если p->next является хвостом списка
-	//				{
-	//					u = stepper->prev;
-	//					z = stepper->next;
-	//					g = z->next;
-	//					stepper->next = g;
-	//					z->next = stepper;
-	//					z->prev = stepper->prev;
-	//					stepper->prev = z;
-	//					u->next = z;
-	//					_tail = stepper;
-	//				}
-	//			}
-	//			else
-	//				stepper = stepper->next; //переход к следующей паре	
-	//		}
-	//		stepper = _head; //следующих проход начинаем с головного элемента
-	//	}
-	//}
-	//	//void Search(const List* lst, char* key_word);
-	//	//void PrintListData(const List* lst);
+
+
+	//void Search(const List* lst, char* key_word);
+	//void PrintListData(const List* lst);
 };
 
 class Doctor: public Base, public SubjList
