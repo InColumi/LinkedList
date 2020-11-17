@@ -1,94 +1,18 @@
-#include "Node.h"
+#include "Base.h"
 #include "List.h"
 #include <string>
 
 using namespace std;
 
-class Base: public Node
-{
-private:
-	size_t _id;
-	string _lastName;
-	string _firstName;
-	string _middleName;
-	string _mailAddress;
-	string _phoneNumber;
-	string _data;
-	string _note;
 
-public:
-	Base() {}
 
-	Base(size_t id, string lastName, string firstName, string middleName, string mailAddress, string phoneNumber, string data, string note)
-	{
-		_id = id;
-		_lastName = lastName;
-		_firstName = firstName;
-		_middleName = middleName;
-		_mailAddress = mailAddress;
-		_phoneNumber = phoneNumber;
-		_data = data;
-		_note = note;
-	}
-
-	size_t GetId()
-	{
-		return _id;
-	}
-
-	string GetLastName()
-	{
-		return _lastName;
-	}
-
-	string GetFirstName()
-	{
-		return _firstName;
-	}
-
-	string GetMiddleName()
-	{
-		return _middleName;
-	}
-
-	string GetMailAddress()
-	{
-		return _mailAddress;
-	}
-
-	string GetPhoneNumber()
-	{
-		return _phoneNumber;
-	}
-
-	string GetData()
-	{
-		return _data;
-	}
-
-	string GetNote()
-	{
-		return _note;
-	}
-
-	void Print()
-	{
-		cout << "Табельный номер: " << _id << '\n';
-		cout << "ФИО: " << _lastName << ' ' << _firstName << ' ' << _middleName << '\n';
-		cout << "Почтовый адрес: " << _mailAddress << '\n';
-		cout << "Номер телефона(формат +1 222 333-44-55): " << _phoneNumber << '\n';
-		cout << "Дата (дд.мм.гггг): " << _data << '\n';
-		cout << "Текстовая заметка: " << _note << "\n\n";
-	}
-};
-
-class SubjList: public List
+class BaseList: public List
 {
 private:
 
 public:
-	SubjList() {}
-	~SubjList() {}
+	BaseList() {}
+	~BaseList() {}
 
 	void Show()
 	{
@@ -229,14 +153,15 @@ private:
 		}
 		return (count == size1) ? true : false;
 	}
-
-	
 };
 
-class Doctor: public Base, public SubjList
+class Doctor: public Base, public BaseList
 {
 public:
-	Doctor();
+	Doctor()
+	{
+		
+	}
 	~Doctor();
 
 private:
