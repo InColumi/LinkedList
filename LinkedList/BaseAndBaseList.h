@@ -152,7 +152,7 @@ public:
 	/// Возвращает заметку
 	/// </summary>
 	/// <returns></returns>
-	std::string GetNote()
+	std::string GetNote() override
 	{
 		return _note;
 	}
@@ -264,7 +264,7 @@ public:
 		Node* stepper = _head;
 		while(stepper != NULL)
 		{
-			if(((Base*) this)->GetNote().find(text) != std::string::npos)
+			if(stepper->GetNote().find(text) != std::string::npos)
 			{
 				((Base*) this)->Print();
 			}

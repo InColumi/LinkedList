@@ -40,6 +40,7 @@ public:
 	virtual void Print() = 0;
 
 	virtual std::string GetLastName() = 0;
+	virtual std::string GetNote() = 0;
 	
 	/// <summary>
 	/// Возвращает указатель на предыдущий
