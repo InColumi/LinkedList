@@ -1,9 +1,5 @@
 #include "List.h"
 
-
-
-
-
 List::List()
 {
 	_head = NULL;
@@ -24,9 +20,7 @@ void List::Add(Node* newNode)
 	if(_head != NULL) //если список не пуст
 	{
 		SetPrev(*newNode, _tail);
-		//item->prev = tail;
 		SetNext(*_tail, newNode);
-		//tail->next = item;
 		_tail = _tail->GetNext();
 	}
 	else //если список пуст, добавляем первый элемент
