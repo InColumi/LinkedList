@@ -19,7 +19,7 @@ private:
 public:
 	Base() {}
 
-	Base(size_t id, string lastName, string firstName, string middleName, string mailAddress, string phoneNumber, string data)
+	Base(size_t id, string lastName, string firstName, string middleName, string mailAddress, string phoneNumber, string data, string note)
 	{
 		_id = id;
 		_lastName = lastName;
@@ -28,6 +28,7 @@ public:
 		_mailAddress = mailAddress;
 		_phoneNumber = phoneNumber;
 		_data = data;
+		_note = note;
 	}
 
 	size_t GetId()
@@ -123,7 +124,7 @@ public:
 		cout << "\tДата (дд.мм.гггг): "; std::cin >> data;
 		cout << "\tТекстовая заметка: "; std::cin >> note;
 
-		Add(new Base(id, lastName, firstName, middleName, mailAddress, phoneNumber, data));
+		Add(new Base(id, lastName, firstName, middleName, mailAddress, phoneNumber, data, note));
 	}
 
 	void Sort()
@@ -145,13 +146,9 @@ public:
 						z = stepper->GetNext();
 						g = z->GetNext();
 						SetNext(*stepper, g);
-						//stepper->GetNext() = g;
 						SetNext(*z, stepper);
-						//z->GetNext() = stepper;
 						SetPrev(*z, stepper->GetPrev());
-						//z->GetPrev() = stepper->prev;
 						SetPrev(*stepper, z);
-						//stepper->prev = z;
 						_head = z;
 					}
 					else if(stepper == GetHead()) //если переставляем головной элемент
@@ -159,15 +156,10 @@ public:
 						z = stepper->GetNext();
 						g = z->GetNext();
 						SetPrev(*g, stepper);
-						//g->prev = stepper;
 						SetNext(*stepper, g);
-						//stepper->next = g;
 						SetNext(*z, stepper);
-						//z->next = stepper;
 						SetPrev(*z, stepper->GetPrev());
-						//z->prev = stepper->GetPrev();
 						SetPrev(*stepper, z);
-						//stepper->prev = z;
 						_head = z;
 					}
 					else if(stepper->GetNext() != _tail) //если второй переставляемый не является хвостом
@@ -176,17 +168,11 @@ public:
 						z = stepper->GetNext();
 						g = z->GetNext();
 						SetPrev(*g, stepper);
-						//g->prev = stepper;
 						SetNext(*stepper, g);
-						//stepper->next = g;
 						SetNext(*z, stepper);
-						//z->next = stepper;
 						SetPrev(*z, stepper->GetPrev());
-						//z->prev = stepper->prev;
 						SetPrev(*stepper, z);
-						//stepper->prev = z;
 						SetNext(*u, z);
-						//u->next = z;
 					}
 					else //если p->next является хвостом списка
 					{
@@ -195,15 +181,10 @@ public:
 
 						g = z->GetNext();
 						SetNext(*stepper, g);
-						//stepper->next = g;
 						SetNext(*z, stepper);
-						//z->next = stepper;
 						SetPrev(*z, stepper->GetPrev());
-						//z->prev = stepper->prev;
 						SetPrev(*stepper, z);
-						//stepper->prev = z;
 						SetNext(*u, z);
-						//u->next = z;
 						_tail = stepper;
 					}
 				}
@@ -212,6 +193,22 @@ public:
 			}
 			stepper = _head; //следующих проход начинаем с головного элемента
 		}
+	}
+
+	void Search(string text)
+	{
+		void (Node:: * Print)() = static_cast<void(Node::*)()>(&Base::Print);
+		string(Node:: * GetNote)() = static_cast<string(Node::*)()>(&Base::GetNote);
+		Node* stepper = _head;
+		while(stepper != NULL)
+		{
+			if((stepper->*GetNote)().find(text) != std::string::npos)
+			{
+				(stepper->*Print)();
+			}
+			stepper = stepper->GetNext();
+		}
+		
 	}
 
 private:
@@ -233,10 +230,7 @@ private:
 		return (count == size1) ? true : false;
 	}
 
-
-
-	//void Search(const List* lst, char* key_word);
-	//void PrintListData(const List* lst);
+	
 };
 
 class Doctor: public Base, public SubjList
