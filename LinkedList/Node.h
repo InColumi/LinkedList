@@ -15,8 +15,16 @@ private:
 	/// </summary>
 	Node* _next;
 public:
+	/// <summary>
+	/// Конструктор по умолчанию
+	/// </summary>
 	Node();
 
+	/// <summary>
+	/// Конструктор с параметрами
+	/// </summary>
+	/// <param name="prev">указатель на предыдущий элемент</param>
+	/// <param name="next">указатель на следующий элемент</param>
 	Node(Node* prev, Node* next);
 
 	/// <summary>

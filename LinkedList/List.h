@@ -25,8 +25,12 @@ protected:
 	Node* _tail;
 
 public:
+	/// <summary>
+	/// Конструктор по умолчанию
+	/// </summary>
 	List();
 
+	///Деструктор
 	~List();
 
 	/// <summary>
@@ -116,6 +120,5 @@ private:
 	/// <param name="index"></param>
 	/// <returns>true/false</returns>
 	bool IsCorrectIndex(size_t& index);
-
 };
 #endif

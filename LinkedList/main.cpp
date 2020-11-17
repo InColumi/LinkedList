@@ -5,9 +5,15 @@
 
 using namespace std;
 
+/// <summary>
+/// Отладочный класс, наследник BaseList
+/// </summary>
 class DebugList: public BaseList
 {
 public:
+	/// <summary>
+	/// Вывод меню с командами
+	/// </summary>
 	void ShowMenu()
 	{
 		cout << ("\n1 - Ввод нового типа и добавление его в список)\n");
