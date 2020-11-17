@@ -1,4 +1,4 @@
 #ifndef TYPENAME_H
 #define TYPENAME_H
-enum ItemType { None = 1, Doctor, Teacher, Fireman };
+enum ItemType { ENone = 0, EDoctor, ETeacher, EFireman };
 #endif
