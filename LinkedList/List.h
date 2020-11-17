@@ -36,6 +36,9 @@ public:
 
 	size_t GetIndex(Node* node);
 
+	Node* GetHead();
+
+	Node* GetTail();
 	/*void Swap(size_t indexFirst, size_t indexSecond)
 	{
 		if(_countNodes == 1)

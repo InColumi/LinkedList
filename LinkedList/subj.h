@@ -19,15 +19,17 @@ private:
 	string _note;
 
 public:
-	Base(string lastName, string firstName, string middleName, string mailAddress, string phoneNumber, string data)
+	Base() {}
+
+	Base(size_t id, string lastName, string firstName, string middleName, string mailAddress, string phoneNumber, string data)
 	{
+		_id = id;
 		_lastName = lastName;
 		_firstName = firstName;
 		_middleName = middleName;
 		_mailAddress = mailAddress;
 		_phoneNumber = phoneNumber;
 		_data = data;
-
 	}
 
 	size_t GetId()
@@ -50,7 +52,7 @@ public:
 		return _middleName;
 	}
 
-	string GeMailAddress()
+	string GetMailAddress()
 	{
 		return _mailAddress;
 	}
@@ -69,109 +71,133 @@ public:
 	{
 		return _note;
 	}
+
+	void Print()
+	{
+		cout << "Табельный номер: " << _id << '\n';
+		cout << "ФИО: " << _firstName << ' ' << _lastName << ' ' << _middleName << '\n';
+		cout << "Почтовый адрес: " << _mailAddress << '\n';
+		cout << "Номер телефона(формат +1 222 333-44-55): " << _phoneNumber << '\n';
+		cout << "Дата (дд.мм.гггг): " << _data << '\n';
+		cout << "Текстовая заметка: " << _note << "\n\n";
+	}
 };
 
 class SubjList: public List
 {
+private:
 
 public:
-	SubjList();
-	~SubjList();
+	SubjList() {}
+	~SubjList() {}
 
-private:
-	void Print(size_t index)
+	void Show()
 	{
-
-		cout << "Табельный номер: " << _id << '\n';
-		cout << "ФИО: " << _firstName << ' ' << _lastName << ' ' << _middleName << '\n';
-		cout << "Почтовый адрес: " << _mailAddress << '\n';
-		cout << "Номер телефона(формат +1 222 333-44-55) :" << _phoneNumber << '\n';
-		cout << "Дата: (дд.мм.гггг)" << _data << '\n';
-		cout << "Текстовая заметка: " << _note << '\n';
+		Node* head = GetHead();
+		void (Node:: * Print)() = static_cast<void(Node::*)()>(&Base::Print);
+		while(head != NULL)
+		{
+			(head->*Print)();
+			head = head->GetNext();
+		}
+		delete head;
 	}
 
 	void Input()
 	{
+		Base base;
+		size_t id;
+		string lastName;
+		string firstName;
+		string middleName;
+		string mailAddress;
+		string phoneNumber;
+		string data;
+		string note;
+
 		cout << "Введите данные:\n";
-		cout << "\tТабельный номер: "; std::cin >> _id;
-		cout << "\tФамилия: "; std::cin >> _firstName;
-		cout << "\tИмя: "; std::cin >> _lastName;
-		cout << "\tОтчество: "; std::cin >> _middleName;
-		cout << "\tПочтовый адрес: "; std::cin >> _mailAddress;
-		cout << "\tНомер телефона(формат +1 222 333-44-55) :"; std::cin >> _phoneNumber;
-		cout << "\tДата (дд.мм.гггг): "; std::cin >> _data;
-		cout << "\tТекстовая заметка: "; std::cin >> _note;
+		cout << "\tТабельный номер: "; std::cin >> id;
+		cout << "\tФамилия: "; std::cin >> firstName;
+		cout << "\tИмя: "; std::cin >> lastName;
+		cout << "\tОтчество: "; std::cin >> middleName;
+		cout << "\tПочтовый адрес: "; std::cin >> mailAddress;
+		cout << "\tНомер телефона(формат +1 222 333-44-55) :"; std::cin >> phoneNumber;
+		cout << "\tДата (дд.мм.гггг): "; std::cin >> data;
+		cout << "\tТекстовая заметка: "; std::cin >> note;
+
+		Add(new Base(id, lastName, firstName, middleName, mailAddress, phoneNumber, data));
 	}
 
-	void Sort()
-	{
-		Base* p = _head;
-		Base* z, * g, * u;
-		int k, j, i;
-		int n = this; //количество элементов списка
-		//пузырьковая сортировка для списка
-		for(j = 0; j < n - 1; j++)
-		{
-			for(i = 0; i < n - j - 1; i++)
-			{
-				if(strcmp(p->surname, ((Base*) p->next)->surname) > 0) //сравниваем фамилии соседних элементов
-				{
-					//меняем их местами, если они не по порядку
-					if(n == 2) //если в списке всего два элемента
-					{
-						z = p->next;
-						g = z->next;
-						p->next = g;
-						z->next = p;
-						z->prev = p->prev;
-						p->prev = z;
-						_head = z;
-					}
-					else if(p == _head) //если переставляем головной элемент
-					{
-						z = p->next;
-						g = z->next;
-						g->prev = p;
-						p->next = g;
-						z->next = p;
-						z->prev = p->prev;
-						p->prev = z;
-						_head = z;
-					}
-					else if(p->next != _tail) //если второй переставляемый не является хвостом
-					{
-						u = p->prev;
-						z = p->next;
-						g = z->next;
-						g->prev = p;
-						p->next = g;
-						z->next = p;
-						z->prev = p->prev;
-						p->prev = z;
-						u->next = z;
-					}
-					else //если p->next является хвостом списка
-					{
-						u = p->prev;
-						z = p->next;
-						g = z->next;
-						p->next = g;
-						z->next = p;
-						z->prev = p->prev;
-						p->prev = z;
-						u->next = z;
-						_tail = p;
-					}
-				}
-				else
-					p = p->next; //переход к следующей паре	
-			}
-			p = _head; //следующих проход начинаем с головного элемента
-		}
-		void Search(const List * lst, char* key_word);
-		void PrintListData(const List * lst);
-	};
+private:
 
+
+	//void Sort()
+	//{
+	//	Node* stepper = GetHead();
+	//	Base* z, * g, * u;
+	//	size_t size = GetSize(); //количество элементов списка
+	//	//пузырьковая сортировка для списка
+	//	for(size_t j = 0; j < size - 1; j++)
+	//	{
+	//		for(size_t i = 0; i < size - j - 1; i++)
+	//		{
+	//			if(strcmp(((Base)stepper->*GetLastName)(), ((Base*) stepper->next)->surname) > 0) //сравниваем фамилии соседних элементов
+	//			{
+	//				//меняем их местами, если они не по порядку
+	//				if(size == 2) //если в списке всего два элемента
+	//				{
+	//					z = stepper->next;
+	//					g = z->next;
+	//					stepper->next = g;
+	//					z->next = stepper;
+	//					z->prev = stepper->prev;
+	//					stepper->prev = z;
+	//					_head = z;
+	//				}
+	//				else if(stepper == _head) //если переставляем головной элемент
+	//				{
+	//					z = stepper->next;
+	//					g = z->next;
+	//					g->prev = stepper;
+	//					stepper->next = g;
+	//					z->next = stepper;
+	//					z->prev = stepper->prev;
+	//					stepper->prev = z;
+	//					_head = z;
+	//				}
+	//				else if(stepper->next != _tail) //если второй переставляемый не является хвостом
+	//				{
+	//					u = stepper->prev;
+	//					z = stepper->next;
+	//					g = z->next;
+	//					g->prev = stepper;
+	//					stepper->next = g;
+	//					z->next = stepper;
+	//					z->prev = stepper->prev;
+	//					stepper->prev = z;
+	//					u->next = z;
+	//				}
+	//				else //если p->next является хвостом списка
+	//				{
+	//					u = stepper->prev;
+	//					z = stepper->next;
+	//					g = z->next;
+	//					stepper->next = g;
+	//					z->next = stepper;
+	//					z->prev = stepper->prev;
+	//					stepper->prev = z;
+	//					u->next = z;
+	//					_tail = stepper;
+	//				}
+	//			}
+	//			else
+	//				stepper = stepper->next; //переход к следующей паре	
+	//		}
+	//		stepper = _head; //следующих проход начинаем с головного элемента
+	//	}
+	//}
+	//	//void Search(const List* lst, char* key_word);
+	//	//void PrintListData(const List* lst);
 };
 
 class Doctor: public Base, public SubjList

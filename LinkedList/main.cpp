@@ -44,22 +44,12 @@ using namespace std;
 int main(int argc, char* argv[])
 {
 	setlocale(LC_ALL, "rus");
-	Node* a = new Node();
-	Node* b = new Node();
-	List list;
-	list.Add(a);
-	list.Add(b);
+	
+	Base a(1, "2", "3", "4", "5", "6", "7");
 
-	for(size_t i = 0; i < list.GetSize(); i++)
-	{
-		cout << list.GetByIndex(i) << '\n';
-	}
-	list.Swap(0, 1);
-	cout << endl;
-	for(size_t i = 0; i < list.GetSize(); i++)
-	{
-		cout << list.GetByIndex(i) << '\n';
-	}
+	SubjList sub;
+	sub.Add(&a);
+	sub.Show();
 	//DebugList debugList;
 
 	//cout << ("Создан пустой список:\n");

@@ -55,7 +55,7 @@ void List::Delete(size_t index)
 	Node* oldNode = RemoveByIndex(index);
 	if(oldNode != NULL)
 	{
-		delete oldNode;
+		oldNode = NULL;
 	}
 }
 
@@ -173,5 +173,16 @@ Node* List::RemoveByIndex(size_t index)
 			SetPrev(*oldNode->GetPrev()->GetNext(), oldNode->GetNext());
 		}
 	}
+	--_countNodes;
 	return oldNode;
+}
+
+Node* List::GetHead()
+{
+	return _head;
+}
+
+Node* List::GetTail()
+{
+	return _tail;
 }
