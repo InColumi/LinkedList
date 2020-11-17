@@ -62,7 +62,7 @@ Node* List::GetByIndex(size_t index)
 	CheckIndex(index);
 	CheckEmpty();
 	Node* stepper = _head;
-	for(size_t i = 0; stepper != NULL && i != index; i++)
+	for(size_t i = 0; stepper != NULL && i != index; i++) // пока не будет конец или не найдет индекс
 	{
 		stepper = stepper->GetNext();
 	}
@@ -74,7 +74,7 @@ size_t List::GetIndex(Node* node)
 	CheckEmpty();
 	bool isFind = false;
 	Node* stepper = _head;
-	for(size_t i = 0; stepper != NULL; i++)
+	for(size_t i = 0; stepper != NULL; i++)// пока не будет конец
 	{
 		if(stepper == node)
 		{
@@ -114,6 +114,8 @@ void List::Insert(Node* item, size_t index)
 	}
 	else
 	{
+		// меняем местами
+
 		Node* beforeDelete = GetByIndex(index - 1);
 		Node* afterDelete = GetByIndex(index);
 

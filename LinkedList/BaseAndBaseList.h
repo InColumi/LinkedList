@@ -3,17 +3,47 @@
 #include "TypeName.h"
 #ifndef	BASEANSBASELIST_H
 #define BASEANSBASELIST_H
+/// <summary>
+/// Наследник Node
+/// </summary>
 class Base: public Node
 {
 private:
+	/// <summary>
+	/// Тип нового элемента
+	/// </summary>
 	ItemType _itemType;
+	/// <summary>
+	/// Табельный номер
+	/// </summary>
 	size_t _id;
+	/// <summary>
+	/// Фамилия
+	/// </summary>
 	std::string _lastName;
+	/// <summary>
+	/// Имя
+	/// </summary>
 	std::string _firstName;
+	/// <summary>
+	/// Отчество
+	/// </summary>
 	std::string _middleName;
+	/// <summary>
+	/// Почтовый адрес
+	/// </summary>
 	std::string _mailAddress;
+	/// <summary>
+	/// Телефон
+	/// </summary>
 	std::string _phoneNumber;
+	/// <summary>
+	/// Дата
+	/// </summary>
 	std::string _data;
+	/// <summary>
+	/// Заметка
+	/// </summary>
 	std::string _note;
 
 public:
@@ -32,66 +62,110 @@ public:
 		_note = note;
 	}
 
+	/// <summary>
+	/// Возвращает Дату 
+	/// </summary>
+	/// <returns></returns>
 	std::string GetData()
 	{
 		return _data;
 	}
 
+	/// <summary>
+	/// Возвращает Имя
+	/// </summary>
+	/// <returns></returns>
 	std::string GetFirstName()
 	{
 		return _firstName;
 	}
 
+	/// <summary>
+	/// Возвращает табельный номер
+	/// </summary>
+	/// <returns></returns>
 	size_t GetId()
 	{
 		return _id;
 	}
 
+	/// <summary>
+	/// Возвращает Фамилие
+	/// </summary>
+	/// <returns></returns>
 	std::string GetLastName()
 	{
 		return _lastName;
 	}
 
+	/// <summary>
+	/// Возвращает отчетво
+	/// </summary>
+	/// <returns></returns>
 	std::string GetMiddleName()
 	{
 		return _middleName;
 	}
 
+	/// <summary>
+	/// Возвращает телефон
+	/// </summary>
+	/// <returns></returns>
 	std::string GetPhoneNumber()
 	{
 		return _phoneNumber;
 	}
 
+	/// <summary>
+	/// Возвращает почту
+	/// </summary>
+	/// <returns></returns>
 	std::string GetMailAddress()
 	{
 		return _mailAddress;
 	}
 
+	/// <summary>
+	/// Возвращает заметку
+	/// </summary>
+	/// <returns></returns>
 	std::string GetNote()
 	{
 		return _note;
 	}
 
+	/// <summary>
+	/// Выводит на монитор в зависимости от типа
+	/// </summary>
 	void Print();
 };
 
+/// <summary>
+/// Наследник List
+/// </summary>
 class BaseList: public List
 {
 private:
 
 public:
+	/// <summary>
+	/// Выводит на монитор весь список
+	/// </summary>
 	void Print()
 	{
 		Node* head = GetHead();
-		void (Node:: * Print)() = static_cast<void(Node::*)()>(&Base::Print);
 		while(head != NULL)
 		{
-			(head->*Print)();
+			((Base*)this)->Print();
 			head = head->GetNext();
 		}
 		delete head;
 	}
 
+	/// <summary>
+	/// Ввод с клавиатуры
+	/// </summary>
+	/// <param name="itemType">тип нового узла</param>
 	void Input(ItemType itemType)
 	{
 		Base base;
@@ -117,6 +191,9 @@ public:
 		Add(new Base(itemType, id, lastName, firstName, middleName, mailAddress, phoneNumber, data, note));
 	}
 
+	/// <summary>
+	/// Сортировка списка по убыванию фамилии А->Я
+	/// </summary>
 	void Sort()
 	{
 		Node* stepper = _head;
@@ -185,6 +262,10 @@ public:
 		}
 	}
 
+	/// <summary>
+	/// Поиск по ключевому фразе в заметках(если находит совпадение, то выводит на экран)
+	/// </summary>
+	/// <param name="text">ключевая фраза</param>
 	void Search(std::string text)
 	{
 		Node* stepper = _head;
@@ -194,15 +275,17 @@ public:
 			{
 				((Base*) this)->Print();
 			}
-			/*if((stepper->*GetNote)().find(text) != std::string::npos)
-			{
-				(stepper->*Print)();
-			}*/
 			stepper = stepper->GetNext();
 		}
 	}
 
 private:
+	/// <summary>
+	/// Сравнение двух строк
+	/// </summary>
+	/// <param name="s1">первая строка</param>
+	/// <param name="s2">вторая строка</param>
+	/// <returns>true если первая строка больше(т.е. стоит выше в алфавите)</returns>
 	bool Compere(std::string s1, std::string s2)
 	{
 		size_t count = 0;
