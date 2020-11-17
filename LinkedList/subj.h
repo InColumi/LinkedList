@@ -1,3 +1,4 @@
+#include "Node.h"
 #include "List.h"
 #include <string>
 
@@ -16,11 +17,22 @@ private:
 	string _phoneNumber;
 	string _data;
 	string _note;
+
 public:
+	Base(string lastName, string firstName, string middleName, string mailAddress, string phoneNumber, string data)
+	{
+		_lastName = lastName;
+		_firstName = firstName;
+		_middleName = middleName;
+		_mailAddress = mailAddress;
+		_phoneNumber = phoneNumber;
+		_data = data;
+
+	}
+
 	void Print()
 	{
 		cout << "Табельный номер: " << _id << '\n';
-
 		cout << "ФИО: " << _firstName << ' ' << _lastName << ' ' << _middleName << '\n';
 		cout << "Почтовый адрес: " << _mailAddress << '\n';
 		cout << "Номер телефона(формат +1 222 333-44-55) :" << _phoneNumber << '\n';
@@ -36,3 +48,23 @@ public:
 	void PrintListData(const List* lst);
 };
 
+class Doctor: public Base, public SubjList
+{
+public:
+	Doctor();
+	~Doctor();
+
+private:
+
+};
+
+class SubjList: public List
+{
+
+public:
+	SubjList();
+	~SubjList();
+
+private:
+
+};
