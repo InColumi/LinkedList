@@ -2,17 +2,35 @@
 #include "BaseList.h"
 #include <string>
 
+
+
 using namespace std;
 
-class Doctor: public Base, public BaseList
+class Doctor: public Base
 {
 public:
-	Doctor()
+	void Print()
 	{
-		
+		cout << "Я - доктор!\n";
 	}
-	~Doctor();
+};
 
-private:
 
+class Teacher: public Base
+{
+public:
+	void Print()
+	{
+		cout << "Я - учитель!\n";
+	}
+};
+
+
+class Fireman: public Base
+{
+public:
+	void Print()
+	{
+		cout << "Я - пожарный!\n";
+	}
 };

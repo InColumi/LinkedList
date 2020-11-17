@@ -9,12 +9,9 @@ class BaseList: public List
 private:
 
 public:
-	BaseList();
-	~BaseList();
-
 	void Show();
 
-	void Input();
+	void Input(ItemType);
 
 	void Sort();
 

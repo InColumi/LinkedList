@@ -2,8 +2,9 @@
 
 Base::Base() {}
 
-Base::Base(size_t id, std::string lastName, std::string firstName, std::string middleName, std::string mailAddress, std::string phoneNumber, std::string data, std::string note)
+Base::Base(ItemType itemType, size_t id, std::string lastName, std::string firstName, std::string middleName, std::string mailAddress, std::string phoneNumber, std::string data, std::string note)
 {
+	_itemType = itemType;
 	_id = id;
 	_lastName = lastName;
 	_firstName = firstName;
@@ -56,6 +57,11 @@ std::string Base::GetNote()
 
 void Base::Print()
 {
+	switch(_itemType)
+	{
+		default:
+			break;
+	}
 	std::cout << "Табельный номер: " << _id << '\n';
 	std::cout << "ФИО: " << _lastName << ' ' << _firstName << ' ' << _middleName << '\n';
 	std::cout << "Почтовый адрес: " << _mailAddress << '\n';

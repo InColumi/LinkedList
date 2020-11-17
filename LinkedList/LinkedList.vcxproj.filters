@@ -50,5 +50,8 @@
     <ClInclude Include="BaseList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TypeName.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

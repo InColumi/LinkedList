@@ -1,4 +1,5 @@
 #include "Node.h"
+#include "TypeName.h"
 #include <iostream>
 #include <string>
 #ifndef BASE_H
@@ -6,6 +7,7 @@
 class Base: public Node
 {
 private:
+	ItemType _itemType;
 	size_t _id;
 	std::string _lastName;
 	std::string _firstName;
@@ -18,14 +20,16 @@ private:
 public:
 	Base();
 
-	Base(size_t id, 
-		 std::string lastName, 
-		 std::string firstName, 
-		 std::string middleName, 
-		 std::string mailAddress, 
-		 std::string phoneNumber, 
-		 std::string data, 
-		 std::string note);
+	Base(
+		ItemType itemType,
+		size_t id,
+		std::string lastName,
+		std::string firstName,
+		std::string middleName,
+		std::string mailAddress,
+		std::string phoneNumber,
+		std::string data,
+		std::string note);
 
 	size_t GetId();
 

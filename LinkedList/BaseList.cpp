@@ -1,8 +1,5 @@
 #include "BaseList.h"
-
-BaseList::BaseList() {}
-BaseList::~BaseList() {}
-
+#include "TypeName.h"
 void BaseList::Show()
 {
 	Node* head = GetHead();
@@ -15,7 +12,7 @@ void BaseList::Show()
 	delete head;
 }
 
-void BaseList::Input()
+void BaseList::Input(ItemType itemType)
 {
 	Base base;
 	size_t id;
@@ -37,7 +34,7 @@ void BaseList::Input()
 	std::cout << "\tДата (дд.мм.гггг): "; std::cin >> data;
 	std::cout << "\tТекстовая заметка: "; std::cin >> note;
 
-	Add(new Base(id, lastName, firstName, middleName, mailAddress, phoneNumber, data, note));
+	Add(new Base(itemType, id, lastName, firstName, middleName, mailAddress, phoneNumber, data, note));
 }
 
 void BaseList::Sort()
