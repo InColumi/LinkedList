@@ -1,7 +1,6 @@
 #include <iostream>
 #include "subj.h"
 #include "BaseAndBaseList.h"
-#include "TypeName.h"
 
 using namespace std;
 
@@ -50,23 +49,28 @@ int main(int argc, char* argv[])
 				cout << "1 - Doctor:\n";
 				cout << "2 - Teacher:\n";
 				cout << "3 - Fireman:\n";
-
 				cout << "Выберете тип: "; cin >> type;
 				switch(type)
 				{
 					case 1: 
 					{
-						debugList.Input(EDoctor);
+						Doctor d;
+						d.Input();
+						debugList.Add(new Doctor(d));
 						break;
 					}
 					case 2:
 					{
-						debugList.Input(ETeacher);
+						Teacher d;
+						d.Input();
+						debugList.Add(new Teacher(d));
 						break;
 					}
 					case 3:
 					{
-						debugList.Input(EFireman);
+						Fireman d;
+						d.Input();
+						debugList.Add(new Fireman(d));
 						break;
 					}
 					default:

@@ -35,9 +35,6 @@
     <ClInclude Include="subj.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TypeName.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="BaseAndBaseList.h">
       <Filter>Header Files</Filter>
     </ClInclude>

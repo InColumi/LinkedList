@@ -1,6 +1,5 @@
 #include "Node.h"
 #include "List.h"
-#include "TypeName.h"
 #ifndef	BASEANSBASELIST_H
 #define BASEANSBASELIST_H
 /// <summary>
@@ -9,10 +8,7 @@
 class Base: public Node
 {
 private:
-	/// <summary>
-	/// Тип нового элемента
-	/// </summary>
-	ItemType _itemType;
+
 	/// <summary>
 	/// Табельный номер
 	/// </summary>
@@ -49,9 +45,8 @@ private:
 public:
 	Base() {}
 
-	Base(ItemType itemType, size_t id, std::string lastName, std::string firstName, std::string middleName, std::string mailAddress, std::string phoneNumber, std::string data, std::string note)
+	Base(size_t id, std::string lastName, std::string firstName, std::string middleName, std::string mailAddress, std::string phoneNumber, std::string data, std::string note)
 	{
-		_itemType = itemType;
 		_id = id;
 		_lastName = lastName;
 		_firstName = firstName;
@@ -71,13 +66,41 @@ public:
 		return _data;
 	}
 
-	/// <summary>
-	/// Возвращает Имя
-	/// </summary>
-	/// <returns></returns>
 	std::string GetFirstName()
 	{
-		return _firstName;
+		return _lastName;
+	}
+
+	/// <summary>
+	/// Возращет тип объкта по умолчанию 0
+	/// </summary>
+	/// <returns></returns>
+	virtual std::size_t GetType()
+	{
+		return 0;
+	}
+
+	virtual void Input()
+	{
+		size_t id;
+		std::string lastName;
+		std::string firstName;
+		std::string middleName;
+		std::string mailAddress;
+		std::string phoneNumber;
+		std::string data;
+		std::string note;
+
+		std::cout << "Введите данные:\n";
+		std::cout << "\tТабельный номер: "; std::cin >> id;
+		std::cout << "\tФамилия: "; std::cin >> firstName;
+		std::cout << "\tИмя: "; std::cin >> lastName;
+		std::cout << "\tОтчество: "; std::cin >> middleName;
+		std::cout << "\tПочтовый адрес: "; std::cin >> mailAddress;
+		std::cout << "\tНомер телефона(формат +1 222 333-44-55) :"; std::cin >> phoneNumber;
+		std::cout << "\tДата (дд.мм.гггг): "; std::cin >> data;
+		std::cout << "\tТекстовая заметка: "; std::cin >> note;
+		*this = Base(id, lastName, firstName, middleName, mailAddress, phoneNumber, data, note);
 	}
 
 	/// <summary>
@@ -93,7 +116,7 @@ public:
 	/// Возвращает Фамилие
 	/// </summary>
 	/// <returns></returns>
-	std::string GetLastName()
+	std::string GetLastName() override
 	{
 		return _lastName;
 	}
@@ -137,7 +160,7 @@ public:
 	/// <summary>
 	/// Выводит на монитор в зависимости от типа
 	/// </summary>
-	void Print();
+	virtual void Print();
 };
 
 /// <summary>
@@ -156,39 +179,10 @@ public:
 		Node* head = GetHead();
 		while(head != NULL)
 		{
-			((Base*)this)->Print();
+			head->Print();
 			head = head->GetNext();
 		}
 		delete head;
-	}
-
-	/// <summary>
-	/// Ввод с клавиатуры
-	/// </summary>
-	/// <param name="itemType">тип нового узла</param>
-	void Input(ItemType itemType)
-	{
-		Base base;
-		size_t id;
-		std::string lastName;
-		std::string firstName;
-		std::string middleName;
-		std::string mailAddress;
-		std::string phoneNumber;
-		std::string data;
-		std::string note;
-
-		std::cout << "Введите данные:\n";
-		std::cout << "\tТабельный номер: "; std::cin >> id;
-		std::cout << "\tФамилия: "; std::cin >> firstName;
-		std::cout << "\tИмя: "; std::cin >> lastName;
-		std::cout << "\tОтчество: "; std::cin >> middleName;
-		std::cout << "\tПочтовый адрес: "; std::cin >> mailAddress;
-		std::cout << "\tНомер телефона(формат +1 222 333-44-55) :"; std::cin >> phoneNumber;
-		std::cout << "\tДата (дд.мм.гггг): "; std::cin >> data;
-		std::cout << "\tТекстовая заметка: "; std::cin >> note;
-
-		Add(new Base(itemType, id, lastName, firstName, middleName, mailAddress, phoneNumber, data, note));
 	}
 
 	/// <summary>
@@ -200,12 +194,11 @@ public:
 		Node* z, * g, * u;
 		size_t size = GetSize(); //количество элементов списка
 		//пузырьковая сортировка для списка
-		std::string(Node:: * GetLastName)() = static_cast<std::string(Node::*)()>(&Base::GetLastName);
 		for(size_t j = 0; j < size - 1; j++)
 		{
 			for(size_t i = 0; i < size - j - 1; i++)
 			{
-				if(Compere((stepper->*GetLastName)(), (stepper->GetNext()->*GetLastName)())) //сравниваем фамилии соседних элементов
+				if(Compere((stepper->GetLastName)(), (stepper->GetNext()->GetLastName)())) //сравниваем фамилии соседних элементов
 				{
 					//меняем их местами, если они не по порядку
 					if(size == 2) //если в списке всего два элемента

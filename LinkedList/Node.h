@@ -1,3 +1,4 @@
+#include <string>
 #ifndef NODE_H
 #define NODE_H
 /// <summary>
@@ -15,6 +16,7 @@ private:
 	/// </summary>
 	Node* _next;
 public:
+
 	/// <summary>
 	/// Конструктор по умолчанию
 	/// </summary>
@@ -27,6 +29,18 @@ public:
 	/// <param name="next">указатель на следующий элемент</param>
 	Node(Node* prev, Node* next);
 
+	/// <summary>
+	/// Виртуальный диструктор
+	/// </summary>
+	virtual ~Node()
+	{
+
+	}
+
+	virtual void Print() = 0;
+
+	virtual std::string GetLastName() = 0;
+	
 	/// <summary>
 	/// Возвращает указатель на предыдущий
 	/// </summary>
