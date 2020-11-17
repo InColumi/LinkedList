@@ -1,5 +1,5 @@
 #include <iostream>
-#include "List.h"
+#include "subj.h"
 
 using namespace std;
 
@@ -29,30 +29,37 @@ using namespace std;
 //	}
 //};
 
-int Iput(string text, size_t size)
-{
-	int index;
-	cout << "Введите номер элемента для " << text << " (>= 0) И (<= %i): ";
-	cin >> index;
-	while(index < 0 && index >= size)
-	{
-		cout << ("Ошибка. Повторите попытку:\t");
-	}
-	return index;
-}
+//int Iput(string text, size_t size)
+//{
+//	int index;
+//	cout << "Введите номер элемента для " << text << " (>= 0) И (<= %i): ";
+//	cin >> index;
+//	while(index < 0 && index >= size)
+//	{
+//		cout << ("Ошибка. Повторите попытку:\t");
+//	}
+//	return index;
+//}
 
 int main(int argc, char* argv[])
 {
 	setlocale(LC_ALL, "rus");
+	Node* a = new Node();
+	Node* b = new Node();
+	List list;
+	list.Add(a);
+	list.Add(b);
 
-
-
-
-
-
-
-
-
+	for(size_t i = 0; i < list.GetSize(); i++)
+	{
+		cout << list.GetByIndex(i) << '\n';
+	}
+	list.Swap(0, 1);
+	cout << endl;
+	for(size_t i = 0; i < list.GetSize(); i++)
+	{
+		cout << list.GetByIndex(i) << '\n';
+	}
 	//DebugList debugList;
 
 	//cout << ("Создан пустой список:\n");

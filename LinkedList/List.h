@@ -6,17 +6,18 @@
 
 class List
 {
-protected:
-	Node* head;
-	Node* tail;
-	size_t countNodes;
+private:
+	Node* _head;
+	Node* _tail;
+	size_t _countNodes;
+
 public:
 	List();
 
 	~List();
 
 	void Add(Node* newNode);
-	
+
 	void CheckEmpty();
 
 	void Clear();
@@ -35,6 +36,31 @@ public:
 
 	size_t GetIndex(Node* node);
 
+	/*void Swap(size_t indexFirst, size_t indexSecond)
+	{
+		if(_countNodes == 1)
+		{
+			std::cout << "Нельза менять элементы местами. Список содержит один элемент.\n";
+			exit(0);
+		}
+		std::cout << _head << std::endl;
+		std::cout << _tail << std::endl;
+		Node* firstNode = GetByIndex(indexFirst);
+		Node* secondNod = GetByIndex(indexSecond);
+
+		Node* prevFirstNode = firstNode->GetPrev();
+		Node* nextFirstNode = firstNode->GetNext();
+
+		SetPrev(*firstNode, secondNod->GetPrev());
+		SetNext(*firstNode, secondNod->GetNext());
+
+		SetPrev(*secondNod, prevFirstNode);
+		SetNext(*secondNod, nextFirstNode);
+
+		std::cout << _head << std::endl;
+		std::cout << _tail << std::endl;
+	}*/
+
 private:
 
 	void CheckIndex(size_t& index);
@@ -42,5 +68,4 @@ private:
 	bool IsCorrectIndex(size_t& index);
 
 };
-
 #endif

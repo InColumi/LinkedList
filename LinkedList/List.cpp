@@ -2,14 +2,14 @@
 
 List::List()
 {
-	head = NULL;
-	tail = NULL;
-	countNodes = 0;
+	_head = NULL;
+	_tail = NULL;
+	_countNodes = 0;
 }
 
 List::~List()
 {
-	while(countNodes != 0)
+	while(_countNodes != 0)
 	{
 		Delete(0);
 	}
@@ -17,20 +17,20 @@ List::~List()
 
 void List::Add(Node* newNode)
 {
-	if(head != NULL) //если список не пуст
+	if(_head != NULL) //если список не пуст
 	{
-		SetPrev(*newNode, tail);
+		SetPrev(*newNode, _tail);
 		//item->prev = tail;
-		SetNext(*tail, newNode);
+		SetNext(*_tail, newNode);
 		//tail->next = item;
-		tail = tail->GetNext();
+		_tail = _tail->GetNext();
 	}
 	else //если список пуст, добавляем первый элемент
 	{
-		head = newNode;
-		tail = newNode;
+		_head = newNode;
+		_tail = newNode;
 	}
-	++countNodes;
+	++_countNodes;
 }
 
 void List::CheckEmpty()
@@ -44,7 +44,7 @@ void List::CheckEmpty()
 
 void List::Clear()
 {
-	while(head != NULL)
+	while(_head != NULL)
 	{
 		Delete(0);
 	}
@@ -63,7 +63,7 @@ Node* List::GetByIndex(size_t index)
 {
 	CheckIndex(index);
 	CheckEmpty();
-	Node* stepper = head;
+	Node* stepper = _head;
 	for(size_t i = 0; stepper != NULL && i != index; i++)
 	{
 		stepper = stepper->GetNext();
@@ -75,7 +75,7 @@ size_t List::GetIndex(Node* node)
 {
 	CheckEmpty();
 	bool isFind = false;
-	Node* stepper = head;
+	Node* stepper = _head;
 	for(size_t i = 0; stepper != NULL; i++)
 	{
 		if(stepper == node)
@@ -94,7 +94,7 @@ size_t List::GetIndex(Node* node)
 
 size_t List::GetSize()
 {
-	return countNodes;
+	return _countNodes;
 }
 
 void List::Insert(Node* item, size_t index)
@@ -102,16 +102,16 @@ void List::Insert(Node* item, size_t index)
 	CheckIndex(index);
 	if(index == 0) //если вставляем в начало списка
 	{
-		if(head != NULL) //если список не пуст
+		if(_head != NULL) //если список не пуст
 		{
-			SetNext(*item->GetNext(), head);
-			SetPrev(*head->GetPrev(), item);
-			head = item;
+			SetNext(*item->GetNext(), _head);
+			SetPrev(*_head->GetPrev(), item);
+			_head = item;
 		}
 		else //если список пуст, добавляем первый элемент
 		{
-			head = item;
-			tail = item;
+			_head = item;
+			_tail = item;
 		}
 	}
 	else
@@ -138,12 +138,12 @@ void List::CheckIndex(size_t& index)
 
 bool List::IsCorrectIndex(size_t& index)
 {
-	return index < countNodes;
+	return index < _countNodes;
 }
 
 bool List::IsEmpty()
 {
-	return countNodes > 0;
+	return _countNodes > 0;
 }
 
 Node* List::RemoveByIndex(size_t index)
@@ -151,21 +151,21 @@ Node* List::RemoveByIndex(size_t index)
 	Node* oldNode = GetByIndex(index); //получаем элемент по номеру
 	if(oldNode != NULL)
 	{
-		if(oldNode == head) //если удаляем головной элемент
+		if(oldNode == _head) //если удаляем головной элемент
 		{
-			if(head->GetNext() != NULL)
+			if(_head->GetNext() != NULL)
 			{
-				SetPrev(*head->GetNext()->GetPrev(), NULL);
+				SetPrev(*_head->GetNext()->GetPrev(), NULL);
 			}
-			head = head->GetNext();
+			_head = _head->GetNext();
 		}
-		else if(oldNode == tail) //если удаляем последний элемент
+		else if(oldNode == _tail) //если удаляем последний элемент
 		{
-			if(tail->GetPrev() != NULL)
+			if(_tail->GetPrev() != NULL)
 			{
-				SetNext(*tail->GetPrev()->GetNext(), NULL);
+				SetNext(*_tail->GetPrev()->GetNext(), NULL);
 			}
-			tail = tail->GetPrev();
+			_tail = _tail->GetPrev();
 		}
 		else //обычный случай
 		{

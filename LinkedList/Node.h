@@ -1,6 +1,5 @@
 #ifndef NODE_H
 #define NODE_H
-
 class Node
 {
 private:
@@ -19,5 +18,4 @@ public:
 
 	friend void SetNext(Node& node, Node* next);
 };
-
 #endif
