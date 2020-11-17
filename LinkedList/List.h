@@ -11,28 +11,36 @@ public:
 
 	~List()
 	{
-		Clear();
-	}
-
-	void Clear()
-	{
-		while(countNodes > 0)
+		while(countNodes != 0)
 		{
-			PopBack();
+			Delete(0);
 		}
 	}
 
-	Node* GetHead()
+	void Add(Node* newNode)
 	{
-		return head;
+		if(head != NULL) //если список не пуст
+		{
+			SetPrev(*newNode, tail);
+			//item->prev = tail;
+			SetNext(*tail, newNode);
+			//tail->next = item;
+			tail = tail->GetNext();
+		}
+		else //если список пуст, добавляем первый элемент
+		{
+			head = newNode;
+			tail = newNode;
+		}
+		++countNodes;
 	}
 
-	Node* GetTail()
+	size_t GetSize()
 	{
-		return tail;
+		return countNodes;
 	}
 
-	Node* GetNode(size_t index)
+	Node* GetByIndex(size_t index)
 	{
 		CheckIndex(index);
 		CheckEmpty();
@@ -44,99 +52,48 @@ public:
 		return stepper;
 	}
 
-	void PopFront()
+	bool IsEmpty()
 	{
-		Node* nextNode = head;
-		head = head->GetNext();
-		delete nextNode;
-		--countNodes;
+		return countNodes > 0;
 	}
 
-	void PopBack()
+	Node* RemoveByIndex(size_t index)
 	{
-		Node* nextNode = tail;
-		tail = tail->GetPrev();
-		delete nextNode;
-		--countNodes;
-	}
-
-	void PushFront(Node* newNode)
-	{
-		AddNode(newNode, &List::PushToFront);
-	}
-
-	void PushBack(Node* newNode)
-	{
-		AddNode(newNode, &List::PushToBack);
-	}
-
-	void RemoveByIndex(size_t index)
-	{
-		Node* nextNode;
-		CheckIndex(index);
-		if(index == 0)
+		Node* oldNode = GetByIndex(index); //получаем элемент по номеру
+		if(oldNode != NULL)
 		{
-			PopFront();
-
-		}
-		else if(index == (countNodes - 1))
-		{
-			PopFront();
-		}
-		else
-		{
-			Node* stepper = head;
-			for(size_t i = 0; stepper != NULL && i != i; i++)
+			if(oldNode == head) //если удаляем головной элемент
 			{
-				stepper = stepper->GetNext();
-			}
-			nextNode = stepper;
-			SetNext(*stepper, stepper->GetNext());
-			delete nextNode;
-		}
-		delete nextNode;
-		--countNodes;
-	}
-
-	/*void Insert(Node* newNode, size_t index)
-	{
-		CheckIndex(index);
-		CheckEmpty();
-		if(head != NULL)
-		{
-			if(index == 0)
-			{
-				if(this->head != NULL)
+				if(head->GetNext() != NULL)
 				{
-					newNode->GetNext() = this->head;
-					this->head->GetPrev() = newNode;
-					this->head = newNode;
+					SetPrev(*head->GetNext()->GetPrev(), NULL);
 				}
-				else
-				{
-					Add(newNode);
-				}
+				head = head->GetNext();
 			}
-			else
+			else if(oldNode == tail) //если удаляем последний элемент
 			{
-				Node* prevNode = GetNode(index - 1);
-				Node* nextNode = GetNode(index);
-				newNode->_prev = prevNode;
-				newNode->_next = nextNode;
-				nextNode->_prev = newNode;
-				prevNode->_next = newNode;
+				if(tail->GetPrev() != NULL)
+				{
+					SetNext(*tail->GetPrev()->GetNext(), NULL);
+				}
+				tail = tail->GetPrev();
+			}
+			else //обычный случай
+			{
+				SetNext(*oldNode->GetNext()->GetPrev(), oldNode->GetPrev());
+				SetPrev(*oldNode->GetPrev()->GetNext(), oldNode->GetNext());
 			}
 		}
-		else
-		{
-			Add(newNode);
-		}
-		++countNodes;
-	}*/
+		return oldNode;
+	}
 
-	int GetSize()
+	void Delete(size_t index)
 	{
-		return countNodes;
+		Node* oldNode = RemoveByIndex(index);
+		if(oldNode != NULL)
+		{
+			delete oldNode;
+		}
 	}
 
 	size_t GetIndex(Node* node)
@@ -160,42 +117,45 @@ public:
 		}
 	}
 
-	bool IsEmpty()
+	void Clear()
 	{
-		return countNodes > 0;
+		while(head != NULL)
+		{
+			Delete(0);
+		}
 	}
 
-private:
-
-	void AddNode(Node* newNode, void (List::* AddNewNode)(Node*))
+	void Insert(Node* item, size_t index)
 	{
-		if(head == NULL)
+		CheckIndex(index);
+		if(index == 0) //если вставляем в начало списка
 		{
-			head = newNode;
-			tail = newNode;
+			if(head != NULL) //если список не пуст
+			{
+				SetNext(*item->GetNext(), head);
+				SetPrev(*head->GetPrev(), item);
+				head = item;
+			}
+			else //если список пуст, добавляем первый элемент
+			{
+				head = item;
+				tail = item;
+			}
 		}
 		else
 		{
-			(this->*AddNewNode)(newNode);
+			Node* beforeDelete = GetByIndex(index - 1);
+			Node* afterDelete = GetByIndex(index);
+
+			SetPrev(*item->GetPrev(), beforeDelete);
+			SetNext(*item->GetNext(), afterDelete);
+
+			SetNext(*beforeDelete->GetNext(), item);
+			SetNext(*afterDelete->GetPrev(), item);
 		}
-		++countNodes;
 	}
 
-	void PushToFront(Node* newNode)
-	{
-		SetNext(*newNode, head);
-		head = newNode;
-		std::cout << tail << std::endl;
-	}
-
-	void PushToBack(Node* newNode)
-	{
-		std::cout << tail << std::endl;
-		SetNext(*tail, newNode);
-		tail = tail->GetNext();
-		std::cout << head << std::endl;
-		std::cout << tail << std::endl << std::endl;
-	}
+private:
 
 	void CheckIndex(size_t& index)
 	{
