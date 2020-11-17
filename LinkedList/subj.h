@@ -75,7 +75,6 @@ void Base::Print()
 	//void(Fireman:: * PrintFireman)() = static_cast<void(Fireman::*)()>(&Base::Print);
 	switch(_itemType)
 	{
-
 		case EDoctor:
 			((Doctor*) this)->Print();
 			break;

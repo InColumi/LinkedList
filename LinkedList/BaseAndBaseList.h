@@ -187,14 +187,12 @@ public:
 
 	void Search(std::string text)
 	{
-		void (Node:: * Print)() = static_cast<void(Node::*)()>(&Base::Print);
-		std::string(Node:: * GetNote)() = static_cast<std::string(Node::*)()>(&Base::GetNote);
 		Node* stepper = _head;
 		while(stepper != NULL)
 		{
-			if( ((Base*)this)->GetNote().find(text) != std::string::npos)
+			if(((Base*) this)->GetNote().find(text) != std::string::npos)
 			{
-				(stepper->*Print)();
+				((Base*) this)->Print();
 			}
 			/*if((stepper->*GetNote)().find(text) != std::string::npos)
 			{

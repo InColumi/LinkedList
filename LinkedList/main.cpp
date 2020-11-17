@@ -99,6 +99,7 @@ int main(int argc, char* argv[])
 			}
 			case 0:
 			{
+				command = 0;
 				break;
 			}
 			default:
