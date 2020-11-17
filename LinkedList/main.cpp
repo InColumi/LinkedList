@@ -41,41 +41,28 @@ using namespace std;
 //	return index;
 //}
 
-bool Compere(string s1, string s2)
-{
-	size_t count = 0;
-	size_t size1 = s1.size();
-	size_t size2 = s2.size();
-	int res = 0;
-	for(size_t i = 0; i < size1 && i < size2; i++)
-	{
-		if(s1[i] > 90 || s2[i] > 90)
-		{
-			res = ((s1[i] > 90) ? s1[i]: s1[i]) - 32;
-			return s1[i] < s2[i];
-		}
-		if(s1[i] == s2[i])
-		{
-			count++;
-			continue;
-		}
-		return s1[i] < s2[i];
-	}
-	return (count == size1) ? true : false;
-}
 
 int main(int argc, char* argv[])
 {
 	setlocale(LC_ALL, "rus");
 	
-	/*Base a(1, "2", "3", "4", "5", "6", "7");
+	Base a(1, "Волженский", "3", "4", "5", "6", "7");
+	Base b(2, "Сушко", "3", "4", "5", "6", "7");
+	Base c(3, "Кияшко", "3", "4", "5", "6", "7");
+	Base d(4, "Харитонов", "3", "4", "5", "6", "7");
+	Base e(5, "Панов", "3", "4", "5", "6", "7");
 	SubjList sub;
 	sub.Add(&a);
-	sub.Show();*/
+	sub.Add(&b);
+	sub.Add(&c);
+	sub.Add(&d);
+	sub.Add(&e);
 
+	sub.Show();
+	cout << "====================================" << endl;
 
-	cout << Compere("Ивано", "Иванович") << endl;
-	
+	sub.Sort();
+	sub.Show();
 	//DebugList debugList;
 
 	//cout << ("Создан пустой список:\n");

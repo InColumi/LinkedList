@@ -73,7 +73,7 @@ public:
 	void Print()
 	{
 		cout << "Табельный номер: " << _id << '\n';
-		cout << "ФИО: " << _firstName << ' ' << _lastName << ' ' << _middleName << '\n';
+		cout << "ФИО: " << _lastName << ' ' << _firstName << ' ' << _middleName << '\n';
 		cout << "Почтовый адрес: " << _mailAddress << '\n';
 		cout << "Номер телефона(формат +1 222 333-44-55): " << _phoneNumber << '\n';
 		cout << "Дата (дд.мм.гггг): " << _data << '\n';
@@ -192,7 +192,7 @@ public:
 					{
 						u = stepper->GetPrev();
 						z = stepper->GetNext();
-						
+
 						g = z->GetNext();
 						SetNext(*stepper, g);
 						//stepper->next = g;
